@@ -6,7 +6,11 @@ namespace LaminasTest\I18n\Filter;
 
 use Laminas\Filter\ConfigProvider as FilterConfigProvider;
 use Laminas\Filter\FilterPluginManager;
+use Laminas\I18n\Filter\Alnum;
+use Laminas\I18n\Filter\Alpha;
 use Laminas\I18n\Filter\ConfigProvider;
+use Laminas\I18n\Filter\NumberFormat;
+use Laminas\I18n\Filter\NumberParse;
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -60,5 +64,45 @@ final class FilterPluginManagerIntegrationTest extends TestCase
             $class,
             $plugins->get($alias),
         );
+    }
+
+    public function testOptionsArePassedToNumberFormat(): void
+    {
+        $plugins = $this->container->get(FilterPluginManager::class);
+        self::assertInstanceOf(FilterPluginManager::class, $plugins);
+
+        $filter = $plugins->build(NumberFormat::class, ['locale' => 'de']);
+
+        self::assertSame('1.234,56', $filter->filter(1234.56));
+    }
+
+    public function testOptionsArePassedToNumberParse(): void
+    {
+        $plugins = $this->container->get(FilterPluginManager::class);
+        self::assertInstanceOf(FilterPluginManager::class, $plugins);
+
+        $filter = $plugins->build(NumberParse::class, ['locale' => 'de']);
+
+        self::assertSame(1234.56, $filter->filter('1.234,56'));
+    }
+
+    public function testOptionsArePassedToAlnum(): void
+    {
+        $plugins = $this->container->get(FilterPluginManager::class);
+        self::assertInstanceOf(FilterPluginManager::class, $plugins);
+
+        $filter = $plugins->build(Alnum::class, ['allow_white_space' => true]);
+
+        self::assertSame('abc 123', $filter->filter('!!abc 123!!'));
+    }
+
+    public function testOptionsArePassedToAlpha(): void
+    {
+        $plugins = $this->container->get(FilterPluginManager::class);
+        self::assertInstanceOf(FilterPluginManager::class, $plugins);
+
+        $filter = $plugins->build(Alpha::class, ['allow_white_space' => true]);
+
+        self::assertSame('a b c ', $filter->filter('!!a b c 123!!'));
     }
 }

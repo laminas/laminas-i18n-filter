@@ -110,4 +110,13 @@ final class AlnumTest extends TestCase
 
         self::assertSame($expect, $result);
     }
+
+    public function testThatWhitespaceIsStrippedByDefault(): void
+    {
+        $filter = new Alnum([
+            'locale' => 'en',
+        ]);
+
+        self::assertSame('abc123', $filter->filter('!abc 123 !!'));
+    }
 }

@@ -98,4 +98,13 @@ final class AlphaTest extends TestCase
 
         self::assertSame($expect, $result);
     }
+
+    public function testThatWhitespaceIsStrippedByDefault(): void
+    {
+        $filter = new Alpha([
+            'locale' => 'en',
+        ]);
+
+        self::assertSame('abc', $filter->filter('!abc 123 !!'));
+    }
 }
