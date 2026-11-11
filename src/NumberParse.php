@@ -49,7 +49,7 @@ final readonly class NumberParse implements FilterInterface
             $locale,
             $options['style'] ?? NumberFormatter::DEFAULT_STYLE,
         );
-        assert($numberFormatter !== null);
+        assert($numberFormatter instanceof NumberFormatter);
         $this->formatter = $numberFormatter;
     }
 
