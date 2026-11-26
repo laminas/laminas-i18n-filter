@@ -17,7 +17,7 @@
     "require-dev": {
         "psalm/plugin-phpunit": "^0.22.0",
         "roave/infection-static-analysis-plugin": "^1.40",
-        "vimeo/psalm": "^6.17.1"
+        "vimeo/psalm": "^7.0.0"
     },
     "conflict": {
         "psalm/plugin-phpunit": "^0.20.0"
